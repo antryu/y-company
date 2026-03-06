@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { floors, Agent } from '@/data/floors';
 import { useSimulation } from '@/hooks/useSimulation';
 import { useTimeOfDay } from '@/hooks/useTimeOfDay';
+import { useLang } from '@/context/LangContext';
 import FloorRow from './FloorRow';
 import ElevatorShaft from './ElevatorShaft';
 import ChatPanel from './ChatPanel';
@@ -22,6 +23,7 @@ export default function Building() {
 
   const { agentStates, activityLog, getAgentsOnFloor, getElevatorAgents } = useSimulation();
   const { timeOfDay, darknessOpacity, litFloors } = useTimeOfDay();
+  const { lang, setLang, text } = useLang();
 
   // Loading screen
   useEffect(() => {
@@ -101,11 +103,18 @@ export default function Building() {
                 _y HOLDINGS
               </h1>
               <p className="text-[10px] sm:text-xs text-cyan-500/70 font-mono">
-                Andrew Tower — 29 Agents Online
+                {text.headerSub}
               </p>
             </div>
           </div>
           <div className="flex items-center gap-3">
+            {/* Language toggle */}
+            <button
+              onClick={() => setLang(lang === 'en' ? 'ko' : 'en')}
+              className="text-xs font-mono px-2 py-1 rounded border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 transition-all cursor-pointer"
+            >
+              {lang === 'en' ? '한국어' : 'EN'}
+            </button>
             {/* Activity feed toggle */}
             <button
               onClick={() => setShowActivityFeed(!showActivityFeed)}
@@ -115,7 +124,7 @@ export default function Building() {
                   : 'border-gray-700 text-gray-500 hover:text-gray-300'
               }`}
             >
-              📊 Feed
+              📊 {lang === 'ko' ? '피드' : 'Feed'}
             </button>
             {/* Sound toggle */}
             <button
@@ -126,7 +135,7 @@ export default function Building() {
               {soundEnabled ? '🔊' : '🔇'}
             </button>
             <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-            <span className="text-[10px] text-green-400 font-mono hidden sm:inline">LIVE</span>
+            <span className="text-[10px] text-green-400 font-mono hidden sm:inline">{text.live}</span>
           </div>
         </div>
       </header>
@@ -212,7 +221,7 @@ export default function Building() {
             <div className="flex gap-2">
               <div className="w-8 h-3 rounded-t bg-amber-900/30 border border-amber-800/20" />
               <div className="w-12 h-3 rounded-t bg-cyan-900/20 border border-cyan-800/20 flex items-center justify-center">
-                <span className="text-[6px] text-cyan-600/50 font-mono">ENTRANCE</span>
+                <span className="text-[6px] text-cyan-600/50 font-mono">{lang === 'ko' ? '정문' : 'ENTRANCE'}</span>
               </div>
               <div className="w-8 h-3 rounded-t bg-amber-900/30 border border-amber-800/20" />
             </div>
@@ -225,7 +234,7 @@ export default function Building() {
 
       {/* Footer */}
       <footer className="text-center py-8 text-gray-700 text-[10px] font-mono">
-        _y Holdings Interactive Company Simulator v2.0 · Click any agent to chat
+        {lang === 'ko' ? '_y Holdings 인터랙티브 회사 시뮬레이터 v2.0 · 에이전트를 클릭하여 대화하세요' : '_y Holdings Interactive Company Simulator v2.0 · Click any agent to chat'}
       </footer>
 
       {/* Chat Panel */}
@@ -243,6 +252,7 @@ export default function Building() {
           agentStates={agentStates}
           activityLog={activityLog}
           onClose={() => setShowDashboard(false)}
+          lang={lang}
         />
       )}
     </div>
@@ -254,10 +264,12 @@ function DashboardPanel({
   agentStates,
   activityLog,
   onClose,
+  lang,
 }: {
   agentStates: Map<string, import('@/hooks/useSimulation').AgentState>;
   activityLog: import('@/data/activities').ActivityLogEntry[];
   onClose: () => void;
+  lang: string;
 }) {
   const working = [...agentStates.values()].filter(a => a.status === 'working').length;
   const meeting = [...agentStates.values()].filter(a => a.status === 'meeting').length;
@@ -274,7 +286,7 @@ function DashboardPanel({
           <div className="flex items-center gap-3 mb-6">
             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-600 to-amber-800 flex items-center justify-center text-2xl font-bold text-white">A</div>
             <div>
-              <h2 className="text-lg font-bold text-yellow-400">Chairman&apos;s Dashboard</h2>
+              <h2 className="text-lg font-bold text-yellow-400">{lang === 'ko' ? '회장 대시보드' : "Chairman's Dashboard"}</h2>
               <p className="text-xs text-gray-500 font-mono">_y Holdings Overview</p>
             </div>
           </div>
