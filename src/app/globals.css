@@ -8,6 +8,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
+  overflow-x: hidden;
 }
 
 /* Custom scrollbar */
@@ -25,7 +26,7 @@ body {
   background: rgba(100, 100, 140, 0.5);
 }
 
-/* Slide in animation for agent panel */
+/* Slide in animation for panels */
 @keyframes slideIn {
   from {
     transform: translateX(100%);
@@ -41,8 +42,34 @@ body {
   animation: slideIn 0.25s ease-out;
 }
 
+/* Fade in */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Pulse animation */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
 /* Selection styles */
 ::selection {
   background: rgba(0, 212, 170, 0.3);
   color: white;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Mobile tap highlight removal */
+* {
+  -webkit-tap-highlight-color: transparent;
 }
