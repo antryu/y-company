@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import Anthropic from '@anthropic-ai/sdk';
 import { agentPersonas, SYSTEM_PROMPT_PREFIX } from '@/data/personas';
 
-const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-});
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
 
 export async function POST(req: NextRequest) {
   try {
@@ -21,22 +19,48 @@ export async function POST(req: NextRequest) {
 
     const systemPrompt = `${SYSTEM_PROMPT_PREFIX}\n\n${persona}`;
 
-    const messages = [
-      ...(history || []).slice(-10).map((h: { role: string; content: string }) => ({
-        role: h.role as 'user' | 'assistant',
-        content: h.content,
-      })),
-      { role: 'user' as const, content: message },
-    ];
-
-    const response = await anthropic.messages.create({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 256,
-      system: systemPrompt,
-      messages,
+    // Build Gemini conversation format
+    const contents = [];
+    
+    // Add history
+    if (history && history.length > 0) {
+      for (const h of history.slice(-10)) {
+        contents.push({
+          role: h.role === 'assistant' ? 'model' : 'user',
+          parts: [{ text: h.content }],
+        });
+      }
+    }
+    
+    // Add current message
+    contents.push({
+      role: 'user',
+      parts: [{ text: message }],
     });
 
-    const text = response.content[0].type === 'text' ? response.content[0].text : '';
+    const response = await fetch(GEMINI_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        system_instruction: {
+          parts: [{ text: systemPrompt }],
+        },
+        contents,
+        generationConfig: {
+          maxOutputTokens: 256,
+          temperature: 0.8,
+        },
+      }),
+    });
+
+    if (!response.ok) {
+      const err = await response.text();
+      console.error('Gemini API error:', err);
+      return NextResponse.json({ error: 'AI service error' }, { status: 502 });
+    }
+
+    const data = await response.json();
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'No response';
 
     return NextResponse.json({ reply: text });
   } catch (error) {
