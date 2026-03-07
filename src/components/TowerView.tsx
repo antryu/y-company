@@ -185,22 +185,18 @@ export function TowerView() {
                       }`}
                     />
 
-                    {/* Agent indicator dots */}
-                    <div className="absolute bottom-[15%] left-1/2 -translate-x-1/2 flex gap-[3px] items-center">
-                      {floor.agents.slice(0, 8).map((agent) => (
-                        <div
-                          key={agent.id}
-                          className={`w-[6px] h-[6px] sm:w-[7px] sm:h-[7px] rounded-full transition-all duration-300 ${
-                            isHovered
-                              ? 'bg-amber-400 shadow-[0_0_6px_rgba(251,191,36,0.8)]'
-                              : 'bg-white/40'
-                          }`}
-                          title={agent.name}
-                        />
-                      ))}
-                      {floor.agents.length > 8 && (
-                        <span className="text-[6px] text-gray-400">+{floor.agents.length - 8}</span>
-                      )}
+                    {/* Agent count badge */}
+                    <div className={`absolute bottom-[10%] left-1/2 -translate-x-1/2 flex items-center gap-1 transition-all duration-300 ${
+                      isHovered ? 'opacity-100' : 'opacity-50'
+                    }`}>
+                      <div className={`flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[8px] sm:text-[9px] font-medium ${
+                        isHovered
+                          ? 'bg-amber-400/20 text-amber-300 shadow-[0_0_8px_rgba(251,191,36,0.3)]'
+                          : 'bg-white/5 text-gray-400'
+                      }`}>
+                        <span className={`w-1.5 h-1.5 rounded-full ${isHovered ? 'bg-amber-400' : 'bg-green-400'}`} />
+                        {floor.agents.length}
+                      </div>
                     </div>
 
                     {/* Floor tooltip on hover */}
@@ -229,11 +225,24 @@ export function TowerView() {
                       </div>
                     )}
 
-                    {/* Floor label ON the tower (left side, subtle) */}
-                    <div className={`absolute right-full mr-1 top-1/2 -translate-y-1/2 text-[9px] sm:text-[11px] font-bold transition-all duration-200 whitespace-nowrap ${
-                      isHovered ? 'text-amber-400' : 'text-gray-500/60'
+                    {/* Floor label — left side */}
+                    <div className={`absolute right-full mr-2 top-1/2 -translate-y-1/2 flex items-center gap-1.5 transition-all duration-200 whitespace-nowrap ${
+                      isHovered ? 'opacity-100' : 'opacity-60'
                     }`}>
-                      {floor.label}
+                      <div className="text-right">
+                        <div className={`text-[11px] sm:text-[13px] font-bold tracking-tight ${
+                          isHovered ? 'text-amber-400' : 'text-gray-300'
+                        }`}>
+                          {floor.label}
+                        </div>
+                        <div className={`text-[8px] sm:text-[10px] ${
+                          isHovered ? 'text-amber-400/70' : 'text-gray-500'
+                        }`}>
+                          {lang === 'ko' ? floor.department : floor.departmentEn}
+                        </div>
+                      </div>
+                      {/* Connector line */}
+                      <div className={`w-3 h-[1px] ${isHovered ? 'bg-amber-400/60' : 'bg-gray-600/40'}`} />
                     </div>
                   </button>
                 );
