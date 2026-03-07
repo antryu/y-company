@@ -214,12 +214,11 @@ function GlassPartition({ position, size = [0.05, FLOOR_HEIGHT, 3] }: { position
   return (
     <mesh position={position}>
       <boxGeometry args={size} />
-      <meshPhysicalMaterial
+      <meshStandardMaterial
         color="#cce8ff"
         transparent
-        transmission={0.5}
-        roughness={0.05}
         opacity={0.2}
+        roughness={0.05}
         side={THREE.DoubleSide}
       />
     </mesh>
@@ -508,12 +507,11 @@ export default function Floor3D({ floor, yOffset, isSelected, onFloorClick }: Fl
       {/* Left wall - glass */}
       <mesh position={[-FLOOR_WIDTH / 2, FLOOR_HEIGHT / 2, 0]} rotation={[0, Math.PI / 2, 0]}>
         <planeGeometry args={[FLOOR_DEPTH, FLOOR_HEIGHT]} />
-        <meshPhysicalMaterial
+        <meshStandardMaterial
           color="#cce8ff"
           transparent
-          transmission={0.6}
-          roughness={0.1}
           opacity={0.15}
+          roughness={0.1}
           side={THREE.DoubleSide}
         />
       </mesh>

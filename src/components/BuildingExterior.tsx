@@ -74,13 +74,12 @@ export default function BuildingExterior() {
       {/* Glass curtain wall - back */}
       <mesh position={[0, TOTAL_HEIGHT / 2, -BUILDING_DEPTH / 2 - 0.05]}>
         <planeGeometry args={[BUILDING_WIDTH, TOTAL_HEIGHT]} />
-        <meshPhysicalMaterial
+        <meshStandardMaterial
           color="#cce8ff"
           transparent
-          transmission={0.4}
+          opacity={0.25}
           roughness={0.1}
           metalness={0.1}
-          opacity={0.25}
           side={THREE.DoubleSide}
         />
       </mesh>
@@ -88,13 +87,12 @@ export default function BuildingExterior() {
       {/* Glass curtain wall - right side */}
       <mesh position={[BUILDING_WIDTH / 2 + 0.05, TOTAL_HEIGHT / 2, 0]} rotation={[0, Math.PI / 2, 0]}>
         <planeGeometry args={[BUILDING_DEPTH, TOTAL_HEIGHT]} />
-        <meshPhysicalMaterial
+        <meshStandardMaterial
           color="#cce8ff"
           transparent
-          transmission={0.4}
+          opacity={0.2}
           roughness={0.1}
           metalness={0.1}
-          opacity={0.2}
           side={THREE.DoubleSide}
         />
       </mesh>
@@ -167,7 +165,7 @@ export default function BuildingExterior() {
         {/* Entrance canopy */}
         <mesh position={[0, 3.2, 2]}>
           <boxGeometry args={[6, 0.1, 3]} />
-          <meshPhysicalMaterial
+          <meshStandardMaterial
             color="#e8f0ff"
             transparent
             opacity={0.5}
@@ -185,11 +183,11 @@ export default function BuildingExterior() {
         {/* Glass entrance doors */}
         <mesh position={[-1, 1.4, 0.1]}>
           <boxGeometry args={[1.8, 2.8, 0.05]} />
-          <meshPhysicalMaterial color="#cce8ff" transparent transmission={0.6} roughness={0.05} opacity={0.3} />
+          <meshStandardMaterial color="#cce8ff" transparent opacity={0.3} roughness={0.05} />
         </mesh>
         <mesh position={[1, 1.4, 0.1]}>
           <boxGeometry args={[1.8, 2.8, 0.05]} />
-          <meshPhysicalMaterial color="#cce8ff" transparent transmission={0.6} roughness={0.05} opacity={0.3} />
+          <meshStandardMaterial color="#cce8ff" transparent opacity={0.3} roughness={0.05} />
         </mesh>
       </group>
     </group>

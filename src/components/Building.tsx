@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback, Suspense } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { OrbitControls, Environment } from '@react-three/drei';
+import { OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 import Floor3D from './Floor3D';
 import Agent3D from './Agent3D';
@@ -82,8 +82,10 @@ function Scene({
       {/* Subtle warm uplight */}
       <pointLight position={[0, 5, 8]} intensity={0.2} color="#fff5e6" distance={30} />
 
-      {/* Environment for reflections */}
-      <Environment preset="city" />
+      {/* Sky color */}
+      <color attach="background" args={['#e8ecf0']} />
+      {/* Hemisphere light for natural fill */}
+      <hemisphereLight args={['#b1e1ff', '#b97a20', 0.3]} />
 
       {/* Building structure */}
       <BuildingExterior />
