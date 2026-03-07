@@ -123,26 +123,37 @@ export function FloorDetail({ floor, tileUrl, onAgentClick, onClose, lang }: Pro
               >
                 {/* Card container */}
                 <div className="flex flex-col items-center gap-1.5 transition-transform duration-300 group-hover:scale-105 group-hover:-translate-y-1">
-                  {/* Avatar with glow ring */}
+                  {/* Agent visual — isometric sprite if available, else circular avatar */}
                   <div className="relative">
-                    <div
-                      className="w-14 h-14 sm:w-16 sm:h-16 rounded-full border-2 overflow-hidden bg-gray-900 shadow-lg transition-all duration-300 group-hover:shadow-amber-400/20 group-hover:shadow-xl"
-                      style={{
-                        borderColor: `${floor.color}50`,
-                      }}
-                    >
-                      {agent.image ? (
-                        <img
-                          src={agent.image}
-                          alt={agent.name}
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-xl font-bold text-amber-400/60 bg-gradient-to-br from-gray-800 to-gray-900">
-                          {agent.name[0]}
+                    {(() => {
+                      const isoPath = `/agents-iso/${agent.number}-${agent.id}-iso.png`;
+                      const hasIso = ['01', '02', '03'].includes(agent.number); // 9F pilot
+                      if (hasIso) {
+                        return (
+                          <div className="w-20 h-20 sm:w-24 sm:h-24 transition-all duration-300 group-hover:scale-105 drop-shadow-lg">
+                            <img
+                              src={isoPath}
+                              alt={agent.name}
+                              className="w-full h-full object-contain"
+                            />
+                          </div>
+                        );
+                      }
+                      return (
+                        <div
+                          className="w-14 h-14 sm:w-16 sm:h-16 rounded-full border-2 overflow-hidden bg-gray-900 shadow-lg transition-all duration-300 group-hover:shadow-amber-400/20 group-hover:shadow-xl"
+                          style={{ borderColor: `${floor.color}50` }}
+                        >
+                          {agent.image ? (
+                            <img src={agent.image} alt={agent.name} className="w-full h-full object-cover" />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-xl font-bold text-amber-400/60 bg-gradient-to-br from-gray-800 to-gray-900">
+                              {agent.name[0]}
+                            </div>
+                          )}
                         </div>
-                      )}
-                    </div>
+                      );
+                    })()}
 
                     {/* Status dot */}
                     <div
