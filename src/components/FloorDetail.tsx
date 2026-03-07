@@ -87,17 +87,17 @@ export function FloorDetail({ floor, tileUrl, onAgentClick, onClose, lang }: Pro
 
       {/* Floor tile background with agents */}
       <div className="flex-1 relative overflow-hidden">
-        {/* Background image */}
+        {/* Background image — bright, vivid */}
         <img
           src={tileUrl}
           alt={`${floor.label} interior`}
-          className="absolute inset-0 w-full h-full object-cover opacity-50"
+          className="absolute inset-0 w-full h-full object-cover opacity-90"
           draggable={false}
         />
 
-        {/* Gradient overlays */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#060b14]/80 via-transparent to-[#060b14]/40" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#060b14]/30 via-transparent to-[#060b14]/30" />
+        {/* Light vignette only at edges */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#060b14]/60 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_50%,rgba(6,11,20,0.4)_100%)]" />
 
         {/* Agent cards floating over the floor */}
         <div className={`absolute inset-0 transition-opacity duration-500 ${ready ? 'opacity-100' : 'opacity-0'}`}>
