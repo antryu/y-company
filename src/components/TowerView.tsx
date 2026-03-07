@@ -95,28 +95,30 @@ export function TowerView() {
 
   return (
     <div className="h-dvh w-screen bg-[#030712] flex flex-col overflow-hidden">
-      {/* Header */}
-      <header className="flex items-center justify-between px-4 py-2 bg-[#0a0f1a]/80 backdrop-blur-md border-b border-white/5 z-50 shrink-0">
+      {/* Header — minimal, floating */}
+      <header className="absolute top-0 left-0 right-0 flex items-center justify-between px-5 py-3 z-50">
         <div className="flex items-center gap-3">
-          <h1 className="text-base sm:text-lg font-bold text-white tracking-tight">
-            <span className="text-amber-400">_y</span> Tower
+          <h1 className="text-lg sm:text-xl font-light text-white/90 tracking-widest">
+            <span className="font-bold text-amber-400">_y</span>
+            <span className="text-white/50 ml-1 text-sm hidden sm:inline">TOWER</span>
           </h1>
-          <span className="px-2 py-0.5 rounded-full bg-green-500/20 text-green-400 text-[10px] font-bold animate-pulse">
-            {text.live}
-          </span>
+          <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full border border-green-500/20 bg-green-500/5">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+            <span className="text-green-400/80 text-[9px] font-medium tracking-wider uppercase">{text.live}</span>
+          </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
           <button
             onClick={() => setShowActivity(!showActivity)}
-            className="px-2.5 py-1 text-xs rounded-md glass hover:bg-white/10 text-gray-300 transition"
+            className="px-3 py-1.5 text-[10px] tracking-wider uppercase rounded-full border border-white/10 hover:border-white/20 hover:bg-white/5 text-gray-400 hover:text-white transition-all duration-200"
           >
-            📋 {text.activityFeed}
+            {text.activityFeed}
           </button>
           <button
             onClick={() => setLang(lang === 'ko' ? 'en' : 'ko')}
-            className="px-2.5 py-1 text-xs rounded-md glass hover:bg-white/10 text-gray-300 transition"
+            className="w-8 h-8 flex items-center justify-center rounded-full border border-white/10 hover:border-white/20 hover:bg-white/5 text-gray-400 hover:text-white text-xs transition-all duration-200"
           >
-            {lang === 'ko' ? '🇺🇸 EN' : '🇰🇷 한'}
+            {lang === 'ko' ? 'EN' : '한'}
           </button>
         </div>
       </header>
@@ -130,13 +132,20 @@ export function TowerView() {
             ${selectedFloor ? 'hidden md:flex md:w-[25%] md:opacity-60 md:blur-[1px]' : 'w-full'}
           `}
         >
-          {/* Atmospheric background gradient */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0a1628] via-[#030712] to-[#030712]" />
-
-          {/* Subtle radial glow behind tower */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="w-[60%] h-[70%] rounded-full bg-amber-500/[0.03] blur-3xl" />
+          {/* Rich atmospheric background */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0c1829] via-[#060e1a] to-[#020408]" />
+          
+          {/* Ambient glow layers */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden">
+            <div className="absolute top-[10%] left-1/2 -translate-x-1/2 w-[80%] h-[40%] rounded-full bg-amber-500/[0.02] blur-[100px]" />
+            <div className="absolute bottom-[5%] left-1/2 -translate-x-1/2 w-[60%] h-[30%] rounded-full bg-blue-500/[0.02] blur-[80px]" />
           </div>
+
+          {/* Subtle grid pattern overlay */}
+          <div className="absolute inset-0 opacity-[0.03]" style={{
+            backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
+            backgroundSize: '60px 60px',
+          }} />
 
           {/* Tower container */}
           <div
@@ -250,21 +259,36 @@ export function TowerView() {
                 );
               })}
 
-              {/* Tower top label — positioned above the crown */}
-              <div className="absolute top-[3%] left-1/2 -translate-x-1/2 text-center pointer-events-none">
-                <div className="text-[8px] sm:text-[10px] font-bold text-amber-400/40 tracking-[0.3em] uppercase">
+              {/* Tower top label — elegant branding above crown */}
+              <div className="absolute top-[2%] left-1/2 -translate-x-1/2 text-center pointer-events-none">
+                <div className="text-[9px] sm:text-[11px] font-light text-amber-400/30 tracking-[0.5em] uppercase">
                   _y Holdings
                 </div>
+                <div className="mt-0.5 w-8 h-[1px] mx-auto bg-gradient-to-r from-transparent via-amber-400/20 to-transparent" />
               </div>
             </div>
           </div>
 
-          {/* Bottom info bar (only when no floor selected) */}
+          {/* Bottom info bar */}
           {!selectedFloor && (
-            <div className="absolute bottom-0 left-0 right-0 text-center pb-3 z-10 pointer-events-none">
-              <p className="text-[10px] text-gray-600">
-                {lang === 'ko' ? '층을 클릭하여 탐색하세요' : 'Click a floor to explore'}
-              </p>
+            <div className="absolute bottom-0 left-0 right-0 z-10 pointer-events-none">
+              <div className="bg-gradient-to-t from-[#020408] via-[#020408]/60 to-transparent pt-12 pb-4">
+                <div className="flex flex-col items-center gap-2">
+                  <div className="flex items-center gap-3 text-[10px] text-gray-500 tracking-wider">
+                    <span className="flex items-center gap-1">
+                      <span className="w-1 h-1 rounded-full bg-green-500/60" />
+                      29 {lang === 'ko' ? '에이전트' : 'agents'}
+                    </span>
+                    <span className="text-gray-700">•</span>
+                    <span>10 {lang === 'ko' ? '층' : 'floors'}</span>
+                    <span className="text-gray-700">•</span>
+                    <span>5 {lang === 'ko' ? '사업부' : 'divisions'}</span>
+                  </div>
+                  <p className="text-[9px] text-gray-600/60 tracking-widest uppercase">
+                    {lang === 'ko' ? '층을 클릭하여 탐색하세요' : 'Click a floor to explore'}
+                  </p>
+                </div>
+              </div>
             </div>
           )}
         </div>
