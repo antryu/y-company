@@ -145,15 +145,15 @@ export function TowerView() {
           >
             <div
               className={`relative transition-all duration-500 ${
-                selectedFloor ? 'h-[90%]' : 'h-[85vh] sm:h-[88vh]'
+                selectedFloor ? 'h-[90%]' : 'h-[88vh] sm:h-[92vh]'
               }`}
-              style={{ aspectRatio: '0.45' }}
+              style={{ aspectRatio: '1' }}
             >
-              {/* Tower image - dominant, immersive */}
+              {/* Tower image - fills container, 1:1 ratio */}
               <img
                 src="/tiles/y-tower-main.png"
                 alt="_y Tower"
-                className="h-full w-auto object-contain select-none drop-shadow-2xl"
+                className="h-full w-full object-contain select-none drop-shadow-2xl"
                 draggable={false}
               />
 
@@ -170,7 +170,7 @@ export function TowerView() {
                     onClick={() => handleFloorClick(floor)}
                     onMouseEnter={() => setHoveredFloor(floor)}
                     onMouseLeave={() => setHoveredFloor(null)}
-                    className="absolute left-[15%] right-[15%] floor-hotspot cursor-pointer group"
+                    className="absolute left-[25%] right-[25%] floor-hotspot cursor-pointer group"
                     style={{
                       top: `${pos.top}%`,
                       height: `${pos.height}%`,
