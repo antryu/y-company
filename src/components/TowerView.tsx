@@ -31,17 +31,19 @@ const FLOOR_TILES: Record<number, string> = {
 // Calibrated floor positions within the tower image
 // The tower structure occupies roughly 15%-85% of the image height
 // Each floor zone is mapped to where it visually appears in the DNA helix tower
+// Calibrated to actual tower image pixel analysis
+// Building starts at ~17% (10F top) and ends at ~88% (1F bottom)
 const FLOOR_POSITIONS: Record<number, { top: number; height: number }> = {
-  10: { top: 13, height: 6.5 },
-  9:  { top: 20, height: 7 },
-  8:  { top: 27, height: 7 },
-  7:  { top: 34, height: 7 },
-  6:  { top: 41, height: 7 },
-  5:  { top: 48, height: 7 },
-  4:  { top: 55, height: 7 },
-  3:  { top: 62, height: 7 },
-  2:  { top: 69, height: 7 },
-  1:  { top: 76, height: 7 },
+  10: { top: 17, height: 7 },
+  9:  { top: 24, height: 7 },
+  8:  { top: 31, height: 6 },
+  7:  { top: 37, height: 7 },
+  6:  { top: 44, height: 7 },
+  5:  { top: 51, height: 7 },
+  4:  { top: 58, height: 7 },
+  3:  { top: 65, height: 7 },
+  2:  { top: 72, height: 8 },
+  1:  { top: 80, height: 8 },
 };
 
 export function TowerView() {
@@ -247,8 +249,8 @@ export function TowerView() {
                 );
               })}
 
-              {/* Tower top label */}
-              <div className="absolute top-[7%] left-1/2 -translate-x-1/2 text-center pointer-events-none">
+              {/* Tower top label — positioned above the crown */}
+              <div className="absolute top-[3%] left-1/2 -translate-x-1/2 text-center pointer-events-none">
                 <div className="text-[8px] sm:text-[10px] font-bold text-amber-400/40 tracking-[0.3em] uppercase">
                   _y Holdings
                 </div>
