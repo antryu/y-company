@@ -225,24 +225,26 @@ export function TowerView() {
                       </div>
                     )}
 
-                    {/* Floor label — left side */}
+                    {/* Floor label — left side with dark pill background */}
                     <div className={`absolute right-full mr-2 top-1/2 -translate-y-1/2 flex items-center gap-1.5 transition-all duration-200 whitespace-nowrap ${
-                      isHovered ? 'opacity-100' : 'opacity-60'
+                      isHovered ? 'opacity-100' : 'opacity-80'
                     }`}>
-                      <div className="text-right">
+                      <div className={`text-right px-2 py-1 rounded-lg ${
+                        isHovered ? 'bg-amber-400/20 backdrop-blur-sm' : 'bg-black/50 backdrop-blur-sm'
+                      }`}>
                         <div className={`text-[11px] sm:text-[13px] font-bold tracking-tight ${
-                          isHovered ? 'text-amber-400' : 'text-gray-300'
+                          isHovered ? 'text-amber-400' : 'text-white'
                         }`}>
                           {floor.label}
                         </div>
                         <div className={`text-[8px] sm:text-[10px] ${
-                          isHovered ? 'text-amber-400/70' : 'text-gray-500'
+                          isHovered ? 'text-amber-300/80' : 'text-gray-300/80'
                         }`}>
                           {lang === 'ko' ? floor.department : floor.departmentEn}
                         </div>
                       </div>
                       {/* Connector line */}
-                      <div className={`w-3 h-[1px] ${isHovered ? 'bg-amber-400/60' : 'bg-gray-600/40'}`} />
+                      <div className={`w-3 h-[1px] ${isHovered ? 'bg-amber-400/60' : 'bg-white/30'}`} />
                     </div>
                   </button>
                 );
