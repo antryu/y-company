@@ -139,3 +139,48 @@ body {
 .stagger-children > *:nth-child(8) { animation-delay: 420ms; }
 .stagger-children > *:nth-child(9) { animation-delay: 480ms; }
 .stagger-children > *:nth-child(10) { animation-delay: 540ms; }
+
+/* === Tower Cinematic Animations === */
+
+/* Floating particles rising slowly */
+@keyframes float-particle {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.3; }
+  100% { transform: translateY(-120px) translateX(20px); opacity: 0; }
+}
+.animate-float-particle {
+  animation: float-particle 8s ease-in-out infinite;
+}
+
+/* Horizontal scan line moving top to bottom */
+@keyframes scan-line {
+  0% { top: -2px; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+.animate-scan-line {
+  animation: scan-line 12s linear infinite;
+}
+
+/* Tower warm glow pulsing */
+@keyframes tower-glow {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.35; }
+}
+.animate-tower-glow {
+  animation: tower-glow 4s ease-in-out infinite;
+}
+
+/* Diagonal light streak across tower */
+@keyframes light-streak {
+  0% { top: -20%; opacity: 0; }
+  20% { opacity: 0.6; }
+  80% { opacity: 0.6; }
+  100% { top: 120%; opacity: 0; }
+}
+.animate-light-streak {
+  animation: light-streak 8s ease-in-out infinite;
+  animation-delay: 2s;
+}

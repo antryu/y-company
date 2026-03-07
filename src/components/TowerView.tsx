@@ -147,6 +147,27 @@ export function TowerView() {
             backgroundSize: '60px 60px',
           }} />
 
+          {/* Floating particles */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            {[...Array(15)].map((_, i) => (
+              <div
+                key={i}
+                className="absolute w-[2px] h-[2px] rounded-full bg-amber-400/30 animate-float-particle"
+                style={{
+                  left: `${10 + Math.random() * 80}%`,
+                  top: `${10 + Math.random() * 80}%`,
+                  animationDelay: `${i * 0.7}s`,
+                  animationDuration: `${6 + Math.random() * 8}s`,
+                }}
+              />
+            ))}
+          </div>
+
+          {/* Scanning light effect across tower */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden">
+            <div className="absolute w-full h-[2px] bg-gradient-to-r from-transparent via-amber-400/10 to-transparent animate-scan-line" />
+          </div>
+
           {/* Tower container */}
           <div
             ref={towerRef}
@@ -158,13 +179,27 @@ export function TowerView() {
               }`}
               style={{ aspectRatio: '1' }}
             >
-              {/* Tower image - fills container, 1:1 ratio */}
-              <img
-                src="/tiles/y-tower-main.png"
-                alt="_y Tower"
-                className="h-full w-full object-contain select-none drop-shadow-2xl"
-                draggable={false}
-              />
+              {/* Tower image with ambient glow animation */}
+              <div className="relative h-full w-full">
+                <img
+                  src="/tiles/y-tower-main.png"
+                  alt="_y Tower"
+                  className="h-full w-full object-contain select-none drop-shadow-2xl"
+                  draggable={false}
+                />
+                {/* Warm pulsing glow overlay on tower windows */}
+                <div className="absolute inset-0 mix-blend-soft-light animate-tower-glow opacity-30 pointer-events-none"
+                  style={{
+                    background: 'radial-gradient(ellipse 40% 60% at 50% 50%, rgba(251,191,36,0.3), transparent)',
+                  }}
+                />
+                {/* Moving light streak */}
+                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                  <div className="absolute w-[120%] h-[1px] bg-gradient-to-r from-transparent via-white/8 to-transparent animate-light-streak"
+                    style={{ transform: 'rotate(-15deg)' }}
+                  />
+                </div>
+              </div>
 
               {/* Floor hotspot overlays */}
               {floors.map((floor) => {
