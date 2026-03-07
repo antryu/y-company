@@ -185,37 +185,21 @@ export function TowerView() {
                       }`}
                     />
 
-                    {/* Agent full-body sprites on the floor */}
-                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 flex gap-[1px] items-end">
-                      {agentsToShow.map((agent) => (
+                    {/* Agent indicator dots */}
+                    <div className="absolute bottom-[15%] left-1/2 -translate-x-1/2 flex gap-[3px] items-center">
+                      {floor.agents.slice(0, 8).map((agent) => (
                         <div
                           key={agent.id}
-                          className={`relative transition-all duration-200 ${
-                            isHovered ? 'scale-110 drop-shadow-[0_0_4px_rgba(251,191,36,0.5)]' : ''
+                          className={`w-[6px] h-[6px] sm:w-[7px] sm:h-[7px] rounded-full transition-all duration-300 ${
+                            isHovered
+                              ? 'bg-amber-400 shadow-[0_0_6px_rgba(251,191,36,0.8)]'
+                              : 'bg-white/40'
                           }`}
                           title={agent.name}
-                          style={{ width: floor.agents.length > 5 ? '20px' : '26px' }}
-                        >
-                          {agent.image && (
-                            <img
-                              src={agent.image}
-                              alt={agent.name}
-                              className="w-full h-auto object-contain"
-                              style={{ maxHeight: '48px' }}
-                            />
-                          )}
-                          {/* Name tag on hover */}
-                          {isHovered && (
-                            <div className="absolute -top-3 left-1/2 -translate-x-1/2 text-[5px] sm:text-[6px] text-white bg-black/70 rounded px-0.5 whitespace-nowrap">
-                              {agent.name}
-                            </div>
-                          )}
-                        </div>
+                        />
                       ))}
-                      {floor.agents.length > 6 && (
-                        <div className="w-[20px] h-[36px] flex items-center justify-center text-[7px] text-gray-400 font-bold bg-black/30 rounded">
-                          +{floor.agents.length - 6}
-                        </div>
+                      {floor.agents.length > 8 && (
+                        <span className="text-[6px] text-gray-400">+{floor.agents.length - 8}</span>
                       )}
                     </div>
 
