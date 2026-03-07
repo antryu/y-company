@@ -1,65 +1,97 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+import { Lang, t } from '@/data/i18n';
 import { ActivityLogEntry } from '@/engine/simulation';
+import { getRandomActivity } from '@/data/activities';
 
 interface Props {
   activities: ActivityLogEntry[];
   onClose: () => void;
+  lang: Lang;
 }
 
-export function ActivityFeed({ activities, onClose }: Props) {
-  const sortedActivities = [...activities].reverse();
+interface FeedItem {
+  id: string;
+  agentName: string;
+  activity: string;
+  time: string;
+}
 
-  const formatTime = (ts: number) => {
-    const d = new Date(ts);
-    return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
-  };
+function formatTime(ts: number): string {
+  const d = new Date(ts);
+  return d.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
+}
 
-  const typeIcon = (type: ActivityLogEntry['type']) => {
-    switch (type) {
-      case 'action': return '⚡';
-      case 'chat': return '💬';
-      case 'movement': return '🚶';
-      case 'reflection': return '💭';
-      default: return '📌';
+export function ActivityFeed({ activities, onClose, lang }: Props) {
+  const text = t[lang];
+  const [feedItems, setFeedItems] = useState<FeedItem[]>([]);
+
+  useEffect(() => {
+    // Convert simulation activities
+    const items: FeedItem[] = activities.map((a, i) => ({
+      id: `${a.timestamp}-${i}`,
+      agentName: a.agentName,
+      activity: `${a.agentName}가 ${a.activity}`,
+      time: formatTime(a.timestamp),
+    }));
+
+    // Add some random template activities for variety
+    for (let i = 0; i < 5; i++) {
+      const rnd = getRandomActivity();
+      items.push({
+        id: `random-${i}`,
+        agentName: rnd.agentName,
+        activity: rnd.activity,
+        time: formatTime(Date.now() - Math.random() * 1800000),
+      });
     }
-  };
+
+    // Sort by time descending (most recent first)
+    items.sort((a, b) => b.time.localeCompare(a.time));
+    setFeedItems(items.slice(0, 25));
+  }, [activities]);
 
   return (
-    <div className="absolute bottom-14 left-2 right-2 z-20 max-h-[40vh] bg-gray-900/95 backdrop-blur-md rounded-xl border border-gray-700/50 overflow-hidden animate-fade-in">
-      <div className="flex items-center justify-between px-3 py-2 border-b border-gray-800">
-        <span className="text-xs font-semibold text-gray-300">📋 활동 피드</span>
-        <button
-          onClick={onClose}
-          className="text-gray-500 hover:text-white text-xs transition-colors"
-        >
-          ✕
-        </button>
-      </div>
-      <div className="overflow-y-auto max-h-[35vh] px-3 py-2 space-y-1.5">
-        {sortedActivities.length === 0 ? (
-          <p className="text-xs text-gray-500 text-center py-4">활동 없음</p>
-        ) : (
-          sortedActivities.map((act, i) => (
+    <>
+      {/* Backdrop */}
+      <div className="fixed inset-0 bg-black/40 z-40" onClick={onClose} />
+
+      {/* Panel - bottom sheet on mobile, side panel on desktop */}
+      <div className="fixed bottom-0 left-0 right-0 md:bottom-auto md:right-0 md:top-0 md:left-auto md:w-[360px] md:h-full bg-[#0a0f1a] z-50 rounded-t-2xl md:rounded-none border-t md:border-l border-white/10 flex flex-col max-h-[70vh] md:max-h-full animate-slideUp md:animate-slideIn">
+        {/* Header */}
+        <div className="flex items-center justify-between px-4 py-3 border-b border-white/5 shrink-0">
+          <h3 className="text-sm font-bold text-white flex items-center gap-2">
+            📋 {text.activityFeed}
+            <span className="px-1.5 py-0.5 rounded-full bg-green-500/20 text-green-400 text-[9px] font-bold">
+              {text.live}
+            </span>
+          </h3>
+          <button
+            onClick={onClose}
+            className="w-6 h-6 flex items-center justify-center rounded-md bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition text-xs"
+          >
+            ✕
+          </button>
+        </div>
+
+        {/* Feed items */}
+        <div className="flex-1 overflow-y-auto p-3 space-y-1.5">
+          {feedItems.map((item) => (
             <div
-              key={`${act.timestamp}-${act.agentId}-${i}`}
-              className="flex items-start gap-2 text-xs animate-fade-in"
-              style={{ animationDelay: `${i * 30}ms` }}
+              key={item.id}
+              className="flex items-start gap-2.5 p-2 rounded-lg hover:bg-white/5 transition"
             >
-              <span className="text-[10px] text-gray-500 font-mono mt-0.5 flex-shrink-0">
-                {formatTime(act.timestamp)}
+              <span className="text-[10px] text-gray-500 mt-0.5 shrink-0 w-10">
+                {item.time}
               </span>
-              <span className="flex-shrink-0">{typeIcon(act.type)}</span>
-              <span className="text-gray-300">
-                <span className="font-semibold text-white">{act.agentName}</span>
-                <span className="text-gray-500"> ({act.floor}F)</span>
-                {' · '}
-                {act.activity}
-              </span>
+              <p className="text-xs text-gray-300 leading-relaxed">
+                {item.activity}
+              </p>
             </div>
-          ))
-        )}
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

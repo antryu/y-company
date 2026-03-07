@@ -28,34 +28,30 @@ body {
   from { transform: translateX(100%); opacity: 0; }
   to { transform: translateX(0); opacity: 1; }
 }
-.animate-slide-in { animation: slideIn 0.3s ease-out; }
+
+@keyframes slideUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.animate-fade-in { animation: fadeIn 0.3s ease-out; }
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-/* Agent bobbing animation */
-@keyframes agentBob {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
+.animate-slideIn {
+  animation: slideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Agent drift animation — small left/right movement */
-@keyframes agentDrift {
-  0%, 100% { margin-left: 0; }
-  30% { margin-left: 6px; }
-  70% { margin-left: -6px; }
+.animate-slideUp {
+  animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Selection */
-::selection {
-  background: rgba(0, 229, 255, 0.3);
-  color: white;
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* Dynamic viewport height for mobile */
+.h-dvh {
+  height: 100dvh;
 }
