@@ -147,17 +147,20 @@ export function TowerView() {
             backgroundSize: '60px 60px',
           }} />
 
-          {/* Floating particles */}
+          {/* Floating particles — deterministic positions */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {[...Array(15)].map((_, i) => (
+            {[5,12,20,28,35,42,48,55,62,68,74,80,86,15,25,38,52,65,78,90].map((pos, i) => (
               <div
                 key={i}
-                className="absolute w-[2px] h-[2px] rounded-full bg-amber-400/30 animate-float-particle"
+                className="absolute rounded-full"
                 style={{
-                  left: `${10 + Math.random() * 80}%`,
-                  top: `${10 + Math.random() * 80}%`,
-                  animationDelay: `${i * 0.7}s`,
-                  animationDuration: `${6 + Math.random() * 8}s`,
+                  width: i % 4 === 0 ? '4px' : '2px',
+                  height: i % 4 === 0 ? '4px' : '2px',
+                  background: i % 3 === 0 ? 'rgba(251,191,36,0.5)' : 'rgba(255,255,255,0.25)',
+                  left: `${pos}%`,
+                  bottom: `${(i * 7) % 35}%`,
+                  animation: `floatUp ${7 + (i % 5) * 1.5}s ease-in-out infinite`,
+                  animationDelay: `${i * 0.5}s`,
                 }}
               />
             ))}
@@ -165,7 +168,10 @@ export function TowerView() {
 
           {/* Scanning light effect across tower */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            <div className="absolute w-full h-[2px] bg-gradient-to-r from-transparent via-amber-400/10 to-transparent animate-scan-line" />
+            <div className="absolute w-full h-[1px]" style={{
+              background: 'linear-gradient(90deg, transparent, rgba(251,191,36,0.15), transparent)',
+              animation: 'scanDown 10s linear infinite',
+            }} />
           </div>
 
           {/* Tower container */}
@@ -179,7 +185,7 @@ export function TowerView() {
               }`}
               style={{ aspectRatio: '1' }}
             >
-              {/* Tower image with ambient glow animation */}
+              {/* Tower image with cinematic effects */}
               <div className="relative h-full w-full">
                 <img
                   src="/tiles/y-tower-main.png"
@@ -187,17 +193,20 @@ export function TowerView() {
                   className="h-full w-full object-contain select-none drop-shadow-2xl"
                   draggable={false}
                 />
-                {/* Warm pulsing glow overlay on tower windows */}
-                <div className="absolute inset-0 mix-blend-soft-light animate-tower-glow opacity-30 pointer-events-none"
-                  style={{
-                    background: 'radial-gradient(ellipse 40% 60% at 50% 50%, rgba(251,191,36,0.3), transparent)',
-                  }}
-                />
-                {/* Moving light streak */}
+                {/* Warm pulsing glow on tower */}
+                <div className="absolute inset-0 pointer-events-none" style={{
+                  background: 'radial-gradient(ellipse 35% 50% at 50% 45%, rgba(251,191,36,0.2), transparent)',
+                  mixBlendMode: 'soft-light',
+                  animation: 'pulseGlow 4s ease-in-out infinite',
+                }} />
+                {/* Diagonal light sweep */}
                 <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                  <div className="absolute w-[120%] h-[1px] bg-gradient-to-r from-transparent via-white/8 to-transparent animate-light-streak"
-                    style={{ transform: 'rotate(-15deg)' }}
-                  />
+                  <div className="absolute h-full" style={{
+                    width: '60px',
+                    background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent)',
+                    transform: 'skewX(-20deg)',
+                    animation: 'sweepRight 6s ease-in-out infinite',
+                  }} />
                 </div>
               </div>
 
