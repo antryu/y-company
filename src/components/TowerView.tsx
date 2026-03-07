@@ -34,8 +34,8 @@ const FLOOR_TILES: Record<number, string> = {
 // Calibrated to actual tower image pixel analysis
 // Building starts at ~17% (10F top) and ends at ~88% (1F bottom)
 const FLOOR_POSITIONS: Record<number, { top: number; height: number }> = {
-  10: { top: 17, height: 7 },
-  9:  { top: 24, height: 7 },
+  10: { top: 19, height: 6 },
+  9:  { top: 25, height: 7 },
   8:  { top: 31, height: 6 },
   7:  { top: 37, height: 7 },
   6:  { top: 44, height: 7 },
