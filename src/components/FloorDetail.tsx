@@ -123,41 +123,27 @@ export function FloorDetail({ floor, tileUrl, onAgentClick, onClose, lang }: Pro
               >
                 {/* Card container */}
                 <div className="flex flex-col items-center gap-1.5 transition-transform duration-300 group-hover:scale-105 group-hover:-translate-y-1">
-                  {/* Agent visual — isometric sprite if available, else circular avatar */}
+                  {/* Holographic avatar card */}
                   <div className="relative">
-                    {(() => {
-                      const isoPath = `/agents-iso/${agent.number}-${agent.id}-iso.png`;
-                      const hasIso = ['01', '02', '03'].includes(agent.number); // 9F pilot
-                      if (hasIso) {
-                        return (
-                          <div className="w-20 h-20 sm:w-24 sm:h-24 transition-all duration-300 group-hover:scale-105 drop-shadow-lg">
-                            <img
-                              src={isoPath}
-                              alt={agent.name}
-                              className="w-full h-full object-contain"
-                            />
-                          </div>
-                        );
-                      }
-                      return (
-                        <div
-                          className="w-14 h-14 sm:w-16 sm:h-16 rounded-full border-2 overflow-hidden bg-gray-900 shadow-lg transition-all duration-300 group-hover:shadow-amber-400/20 group-hover:shadow-xl"
-                          style={{ borderColor: `${floor.color}50` }}
-                        >
-                          {agent.image ? (
-                            <img src={agent.image} alt={agent.name} className="w-full h-full object-cover" />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center text-xl font-bold text-amber-400/60 bg-gradient-to-br from-gray-800 to-gray-900">
-                              {agent.name[0]}
-                            </div>
-                          )}
+                    <div
+                      className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl overflow-hidden shadow-lg transition-all duration-300 group-hover:shadow-xl group-hover:scale-110 ring-1 ring-white/10 group-hover:ring-amber-400/30"
+                      style={{
+                        background: 'linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02))',
+                        backdropFilter: 'blur(8px)',
+                      }}
+                    >
+                      {agent.image ? (
+                        <img src={agent.image} alt={agent.name} className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-lg font-bold text-amber-400/60 bg-gradient-to-br from-gray-800/80 to-gray-900/80">
+                          {agent.name[0]}
                         </div>
-                      );
-                    })()}
+                      )}
+                    </div>
 
                     {/* Status dot */}
                     <div
-                      className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-2 border-[#060b14]"
+                      className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-[#060b14]"
                       style={{
                         backgroundColor: statusColor,
                         boxShadow: `0 0 6px ${statusColor}80`,
@@ -165,12 +151,12 @@ export function FloorDetail({ floor, tileUrl, onAgentClick, onClose, lang }: Pro
                     />
                   </div>
 
-                  {/* Name tag */}
-                  <div className="glass rounded-lg px-2 py-1 text-center min-w-[60px]">
-                    <div className="text-[10px] sm:text-xs font-semibold text-white truncate">
+                  {/* Name tag — minimal, clean */}
+                  <div className="text-center min-w-[50px]">
+                    <div className="text-[10px] sm:text-xs font-bold text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)] truncate">
                       {agent.name}
                     </div>
-                    <div className="text-[8px] sm:text-[9px] text-gray-400 truncate">
+                    <div className="text-[7px] sm:text-[8px] text-gray-300/70 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] truncate">
                       {agent.role}
                     </div>
                   </div>
