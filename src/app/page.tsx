@@ -1,12 +1,12 @@
 'use client';
 
-import Building from '@/components/Building';
 import { LangProvider } from '@/context/LangContext';
+import { TowerView } from '@/components/TowerView';
 
 export default function Home() {
   return (
     <LangProvider>
-      <Building />
+      <TowerView />
     </LangProvider>
   );
 }

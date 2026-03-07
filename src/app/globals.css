@@ -41,21 +41,21 @@ body {
   50% { opacity: 0.5; }
 }
 
-/* Agent panel styling */
-.agent-panel {
-  animation: slideIn 0.3s ease-out;
+/* Agent bobbing animation */
+@keyframes agentBob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* Agent drift animation — small left/right movement */
+@keyframes agentDrift {
+  0%, 100% { margin-left: 0; }
+  30% { margin-left: 6px; }
+  70% { margin-left: -6px; }
 }
 
 /* Selection */
 ::selection {
   background: rgba(0, 229, 255, 0.3);
   color: white;
-}
-
-/* Canvas cursor */
-canvas {
-  cursor: grab;
-}
-canvas:active {
-  cursor: grabbing;
 }
