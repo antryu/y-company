@@ -49,7 +49,7 @@ export const floors: Floor[] = [
         id: 'andrew',
         number: '00',
         name: 'Andrew',
-        image: '',
+        image: '/agents/00-andrew.png',
         department: '회장실',
         floor: 10,
         role: 'Chairman & CEO',
