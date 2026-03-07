@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Agent, floors } from '@/data/floors';
 import { Lang, t } from '@/data/i18n';
 import { agentSkills } from '@/data/skills';
+import { agentRelationships, Relationship } from '@/data/relationships';
 
 interface Props {
   agent: Agent;
@@ -75,6 +76,23 @@ export function AgentChat({ agent, onClose, lang }: Props) {
   const mbti = AGENT_MBTI[agent.id] || '—';
   const floorInfo = floors.find((f) => f.level === agent.floor);
   const suggestions = getAgentSuggestions(agent, lang);
+  const relationships = agentRelationships[agent.id] || [];
+
+  const relationshipEmoji: Record<string, string> = {
+    alliance: '🤝',
+    rival: '⚡',
+    tension: '😤',
+    mentor: '🎓',
+    collaborator: '🔗',
+  };
+
+  const relationshipColor: Record<string, string> = {
+    alliance: 'bg-green-400/10 text-green-300/80 border-green-400/20',
+    rival: 'bg-red-400/10 text-red-300/80 border-red-400/20',
+    tension: 'bg-orange-400/10 text-orange-300/80 border-orange-400/20',
+    mentor: 'bg-blue-400/10 text-blue-300/80 border-blue-400/20',
+    collaborator: 'bg-purple-400/10 text-purple-300/80 border-purple-400/20',
+  };
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
@@ -191,6 +209,29 @@ export function AgentChat({ agent, onClose, lang }: Props) {
                 {s}
               </span>
             ))}
+          </div>
+        )}
+
+        {/* Relationships */}
+        {relationships.length > 0 && (
+          <div className="mt-3 pt-2 border-t border-white/5">
+            <p className="text-[9px] text-gray-600 uppercase tracking-wider mb-1.5">
+              {text.relationships || '관계'}
+            </p>
+            <div className="flex flex-wrap gap-1">
+              {relationships.map((rel: Relationship, i: number) => (
+                <span
+                  key={i}
+                  className={`text-[9px] px-2 py-0.5 rounded-full border ${relationshipColor[rel.type] || 'bg-white/5 text-gray-400 border-white/10'}`}
+                  title={lang === 'ko' ? rel.descKo : rel.descEn}
+                >
+                  {relationshipEmoji[rel.type] || '👤'} {rel.targetId.charAt(0).toUpperCase() + rel.targetId.slice(1)}
+                  <span className="opacity-60 ml-1">
+                    {lang === 'ko' ? rel.descKo : rel.descEn}
+                  </span>
+                </span>
+              ))}
+            </div>
           </div>
         )}
       </div>

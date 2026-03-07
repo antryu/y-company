@@ -6,6 +6,7 @@ import { floors, Agent, Floor } from '@/data/floors';
 import { FloorDetail } from './FloorDetail';
 import { AgentChat } from './AgentChat';
 import { ActivityFeed } from './ActivityFeed';
+import { SimulationPanel } from './SimulationPanel';
 import {
   initializeSimulation,
   simulationStep,
@@ -51,6 +52,7 @@ export function TowerView() {
   const [selectedFloor, setSelectedFloor] = useState<Floor | null>(null);
   const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null);
   const [showActivity, setShowActivity] = useState(false);
+  const [showSimulation, setShowSimulation] = useState(false);
   const [activities, setActivities] = useState<ActivityLogEntry[]>([]);
   const [initialized, setInitialized] = useState(false);
   const [hoveredFloor, setHoveredFloor] = useState<Floor | null>(null);
@@ -108,6 +110,12 @@ export function TowerView() {
           </div>
         </div>
         <div className="flex items-center gap-1.5">
+          <button
+            onClick={() => setShowSimulation(true)}
+            className="px-3 py-1.5 text-[10px] tracking-wider uppercase rounded-full border border-amber-400/20 hover:border-amber-400/40 hover:bg-amber-400/10 text-amber-400/80 hover:text-amber-300 transition-all duration-200"
+          >
+            🎯 {text.simulation || '시뮬레이션'}
+          </button>
           <button
             onClick={() => setShowActivity(!showActivity)}
             className="px-3 py-1.5 text-[10px] tracking-wider uppercase rounded-full border border-white/10 hover:border-white/20 hover:bg-white/5 text-gray-400 hover:text-white transition-all duration-200"
@@ -364,6 +372,14 @@ export function TowerView() {
           <ActivityFeed
             activities={activities}
             onClose={() => setShowActivity(false)}
+            lang={lang}
+          />
+        )}
+
+        {/* ===== SIMULATION PANEL ===== */}
+        {showSimulation && (
+          <SimulationPanel
+            onClose={() => setShowSimulation(false)}
             lang={lang}
           />
         )}
